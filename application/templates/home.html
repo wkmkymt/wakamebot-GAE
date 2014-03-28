@@ -1,0 +1,64 @@
+{% extends "home-base.html" %}
+
+
+{% block editForm -%}
+        <div class="column">
+          <section id="editForm" class="raund-box">
+            <header class="column-header">
+              <h2>Edit</h1>
+            </header>
+
+            <ul>
+              <li class="clearfix">
+                <input id="add" type="radio" name="editType" value="/add" checked />
+                <label for="add">Add</label>
+                <input id="remove" type="radio" name="editType" value="/remove" />
+                <label for="remove">Remove</label>
+              </li>
+
+              <!-- Add Type -->
+              <ul id="addType">
+                <li>
+                  <label>
+                    <span>Text</span>
+                    <p><textarea class="raund-box" name="text" ng-model="text" ng-maxlength="140" required></textarea></p>
+                  </label>
+                </li>
+
+                <li class="addType">
+                  <input class="raund-box" type="submit" value="Add" ng-disabled="botForm.$invalid || botForm.text.$error.maxlength" />
+                  <span ng-hide="botForm.text.$error.maxlength">[[ text.length ? 140 - text.length : 140 ]]</span>
+                  <span ng-show="botForm.text.$error.maxlength">Too long</span>
+                </li>
+              </ul>
+
+              <!-- Remove Type -->
+              <ul id="removeType">
+                <li>
+                  <input class="raund-box" type="submit" value="remove" />
+                </li>
+              </ul>
+            </ul>
+          </section>
+        </div>
+{%- endblock editForm %}
+
+
+{% block messageBox -%}
+        <div class="column">
+          <ul id="messageBox">
+            {%- if tweets -%}
+              {%- for tweet in tweets %}
+                <li>
+                  <input type="checkbox" name="tweet" id="tweet{{ loop.index0 }}" value="{{ tweet.key().id() }}" />
+                  <label class="message entry raund-box" for="tweet{{ loop.index0 }}">{{ tweet.text }}</label>
+                </li>
+              {%- endfor %}
+            {%- else %}
+              <li class="message error raund-box">
+                <p>There is no entry of Twitter Bot</p>
+              </li>
+            {%- endif %}
+          </ul>
+        </div>
+{%- endblock messageBox %}
