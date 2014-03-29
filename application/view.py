@@ -5,6 +5,7 @@ import webapp2
 from webapp2_extras import sessions
 from google.appengine.ext import db
 from jinja2 import Environment, FileSystemLoader
+from tweepy import TweepError
 
 import os
 import binascii
@@ -103,7 +104,7 @@ class AddBotHandler(BaseHandler):
 class RemoveBotHandler(BaseHandler):
     def post(self):
         # Get selected texts
-        tweet_ids = self.request.get("tweet", allow_multiple = True)
+        tweet_ids = self.request.get_all("tweet")
 
         # Delete text of twitter-bot from DataBase
         delete_tweets = []
@@ -124,12 +125,21 @@ class PostTweetHandler(BaseHandler):
     def get(self):
         # Get text chosen randomly from DataBase
         query = Tweet.all()
+
+        # If there is no bot text
+        if not query.count():
+            return
+
         tweets = query.fetch(query.count())
         tweet = tweets[randint(0, query.count() - 1)]
 
         # Tweet the text
         wkm = Wakametter(ACCESS["key"], ACCESS["secret"])
-        wkm.tweet(tweet.text)
+
+        try:
+            wkm.tweet(tweet.text)
+        except TweepError:
+            pass
             
 
 ##############################################################################
