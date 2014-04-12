@@ -1,7 +1,8 @@
-{% extends "home-base.html" %}
+{% extends "base.html" %}
 
 
-{% block editForm -%}
+{% block main -%}
+      <form name="botForm" method="post" action="/add" novalidate>
         <div class="column">
           <section id="editForm" class="raund-box">
             <header class="column-header">
@@ -25,8 +26,9 @@
                   </label>
                 </li>
 
-                <li class="addType">
-                  <input class="raund-box" type="submit" value="Add" ng-disabled="botForm.$invalid || botForm.text.$error.maxlength" />
+                <li>
+                  <input class="raund-box" name="addBtn" type="submit" value="Add"
+                         ng-disabled="botForm.$invalid || botForm.text.$error.maxlength" />
                   <span ng-hide="botForm.text.$error.maxlength">[[ text.length ? 140 - text.length : 140 ]]</span>
                   <span ng-show="botForm.text.$error.maxlength">Too long</span>
                 </li>
@@ -35,30 +37,27 @@
               <!-- Remove Type -->
               <ul id="removeType">
                 <li>
-                  <input class="raund-box" type="submit" value="remove" />
+                  <input class="raund-box" name="removeBtn" type="submit" value="remove" />
                 </li>
               </ul>
             </ul>
           </section>
         </div>
-{%- endblock editForm %}
 
-
-{% block messageBox -%}
         <div class="column">
           <ul id="messageBox">
             {%- if tweets -%}
               {%- for tweet in tweets %}
                 <li>
-                  <input type="checkbox" name="tweet" id="tweet{{ loop.index0 }}" value="{{ tweet.key().id() }}" />
+                  <input id="tweet{{ loop.index0 }}" type="checkbox" name="tweet" value="{{ tweet.key().id() }}" required />
                   <label class="message entry raund-box" for="tweet{{ loop.index0 }}">{{ tweet.text }}</label>
                 </li>
               {%- endfor %}
             {%- else %}
               <li class="message error raund-box">
-                <p>There is no entry of Twitter Bot</p>
+                There is no entry of Twitter Bot
               </li>
             {%- endif %}
           </ul>
         </div>
-{%- endblock messageBox %}
+{%- endblock main %}

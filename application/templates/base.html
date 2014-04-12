@@ -12,12 +12,24 @@
     <script src="/statics/js/libs/angular/angular.min.js"></script>
     <script src="/statics/js/libs/jquery/jquery.min.js"></script>
 
-    <script src="/statics/js/myform.js"></script>
+    <script src="/statics/js/angular_config.js"></script>
+    <script src="/statics/js/botform.js"></script>
 
     <title>Wakame Bot</title>
   </head>
   
   <body>
-    {% block body -%}{%- endblock body %}
+    <header class="site-header clearfix">
+      <h1>Wakame Bot</h1>
+
+      <a class="user-info" href="https://twitter.com/{{ user_name }}">
+        {{ user_name }}
+        <img class="raund-box" src="{{ icon_src }}" />
+      </a>
+    </header>
+
+    <div class="content clearfix">
+      {% block main -%}{%- endblock main %}
+    </div>
   </body>
 </html>
