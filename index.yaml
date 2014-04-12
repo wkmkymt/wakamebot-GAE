@@ -1,5 +1,4 @@
 indexes:
-
 - kind: Tweet
   properties:
   - name: date
